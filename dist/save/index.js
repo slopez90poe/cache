@@ -4931,6 +4931,7 @@ var Inputs;
     Inputs["Path"] = "path";
     Inputs["RestoreKeys"] = "restore-keys";
     Inputs["UploadChunkSize"] = "upload-chunk-size";
+    Inputs["SkipUpdate"] = "skip-update";
 })(Inputs = exports.Inputs || (exports.Inputs = {}));
 var Outputs;
 (function (Outputs) {
@@ -47279,6 +47280,10 @@ function run() {
             }
             if (!utils.isValidEvent()) {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
+                return;
+            }
+            const skipUpdate = core.getBooleanInput(constants_1.Inputs.SkipUpdate);
+            if (skipUpdate) {
                 return;
             }
             const state = utils.getCacheState();
