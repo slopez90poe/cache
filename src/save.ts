@@ -24,7 +24,7 @@ async function run(): Promise<void> {
             return;
         }
 
-        const skipUpdate = core.getBooleanInput(Inputs.SkipUpdate);
+        const skipUpdate = core.getInput(Inputs.SkipUpdate);
         if (skipUpdate) {
             return;
         }
