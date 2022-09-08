@@ -39343,6 +39343,12 @@ function saveImpl(stateProvider) {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
                 return;
             }
+            const skipUpdate = core.getBooleanInput(constants_1.Inputs.SkipUpdate, {
+                required: false
+            });
+            if (skipUpdate) {
+                return;
+            }
             // If restore has stored a primary key in state, reuse that
             // Else re-evaluate from inputs
             const primaryKey = stateProvider.getState(constants_1.State.CachePrimaryKey) ||
@@ -45960,7 +45966,8 @@ var Inputs;
     Inputs["UploadChunkSize"] = "upload-chunk-size";
     Inputs["EnableCrossOsArchive"] = "enableCrossOsArchive";
     Inputs["FailOnCacheMiss"] = "fail-on-cache-miss";
-    Inputs["LookupOnly"] = "lookup-only"; // Input for cache, restore action
+    Inputs["LookupOnly"] = "lookup-only";
+    Inputs["SkipUpdate"] = "skip-update";
 })(Inputs = exports.Inputs || (exports.Inputs = {}));
 var Outputs;
 (function (Outputs) {

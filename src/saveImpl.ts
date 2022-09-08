@@ -26,6 +26,13 @@ async function saveImpl(stateProvider: IStateProvider): Promise<number | void> {
             return;
         }
 
+        const skipUpdate = core.getBooleanInput(Inputs.SkipUpdate, {
+            required: false
+        });
+        if (skipUpdate) {
+            return;
+        }
+
         // If restore has stored a primary key in state, reuse that
         // Else re-evaluate from inputs
         const primaryKey =
