@@ -409,12 +409,7 @@ test("save with skip-update input skips the save", async () => {
     const inputPath = "node_modules";
     testUtils.setInput(Inputs.Path, inputPath);
     testUtils.setInput(Inputs.UploadChunkSize, "4000000");
-
-    jest.spyOn(core, "getBooleanInput")
-        // Skip Update
-        .mockImplementationOnce(() => {
-            return true;
-        });
+    testUtils.setInput(Inputs.SkipUpdate, "true");
 
     const cacheId = 4;
     const saveCacheMock = jest
