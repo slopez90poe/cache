@@ -26,8 +26,11 @@ async function run(): Promise<void> {
 
         const skipUpdate = core.getInput(Inputs.SkipUpdate);
         if (skipUpdate) {
+            core.info(`Skip update variable is true, not saving cache.`);
             return;
         }
+
+        core.info(`Skip update variable: ${skipUpdate}`);
 
         const state = utils.getCacheState();
 
