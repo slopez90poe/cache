@@ -24,6 +24,11 @@ async function run(): Promise<void> {
             return;
         }
 
+        const skipUpdate = core.getBooleanInput(Inputs.SkipUpdate);
+        if (skipUpdate) {
+            return;
+        }
+
         const state = utils.getCacheState();
 
         // Inputs are re-evaluted before the post action, so we want the original key used for restore
