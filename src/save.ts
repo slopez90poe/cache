@@ -24,7 +24,9 @@ async function run(): Promise<void> {
             return;
         }
 
-        const skipUpdate = core.getBooleanInput(Inputs.SkipUpdate);
+        const skipUpdate = core.getBooleanInput(Inputs.SkipUpdate, {
+            required: false
+        });
         if (skipUpdate) {
             return;
         }
@@ -38,7 +40,11 @@ async function run(): Promise<void> {
             return;
         }
 
-        if (utils.isExactKeyMatch(primaryKey, state)) {
+        const forceUpdate = core.getBooleanInput(Inputs.ForceUpdate, {
+            required: false
+        });
+
+        if (!forceUpdate && utils.isExactKeyMatch(primaryKey, state)) {
             core.info(
                 `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
             );

@@ -390,6 +390,52 @@ test("save with valid inputs uploads a cache", async () => {
     expect(failedMock).toHaveBeenCalledTimes(0);
 });
 
+test("save with exact match returns early", async () => {
+    const failedMock = jest.spyOn(core, "setFailed");
+
+    const primaryKey = "Linux-node-bb828da54c148048dd17899ba9fda624811cfb43";
+    const savedCacheKey = primaryKey;
+
+    jest.spyOn(core, "getState")
+        // Cache Entry State
+        .mockImplementationOnce(() => {
+            return savedCacheKey;
+        })
+        // Cache Key State
+        .mockImplementationOnce(() => {
+            return primaryKey;
+        });
+
+    jest.spyOn(core, "getBooleanInput")
+        // Skip Update
+        .mockImplementationOnce(() => {
+            return false;
+        })
+        .mockImplementationOnce(() => {
+            return true;
+        });
+
+    const inputPath = "node_modules";
+    testUtils.setInput(Inputs.Path, inputPath);
+    testUtils.setInput(Inputs.UploadChunkSize, "4000000");
+
+    const cacheId = 4;
+    const saveCacheMock = jest
+        .spyOn(cache, "saveCache")
+        .mockImplementationOnce(() => {
+            return Promise.resolve(cacheId);
+        });
+
+    await run();
+
+    expect(saveCacheMock).toHaveBeenCalledTimes(1);
+    expect(saveCacheMock).toHaveBeenCalledWith([inputPath], primaryKey, {
+        uploadChunkSize: 4000000
+    });
+
+    expect(failedMock).toHaveBeenCalledTimes(0);
+});
+
 test("save with skip-update input skips the save", async () => {
     const failedMock = jest.spyOn(core, "setFailed");
 

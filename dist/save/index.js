@@ -4932,6 +4932,7 @@ var Inputs;
     Inputs["RestoreKeys"] = "restore-keys";
     Inputs["UploadChunkSize"] = "upload-chunk-size";
     Inputs["SkipUpdate"] = "skip-update";
+    Inputs["ForceUpdate"] = "force-update";
 })(Inputs = exports.Inputs || (exports.Inputs = {}));
 var Outputs;
 (function (Outputs) {
@@ -47282,7 +47283,9 @@ function run() {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
                 return;
             }
-            const skipUpdate = core.getBooleanInput(constants_1.Inputs.SkipUpdate);
+            const skipUpdate = core.getBooleanInput(constants_1.Inputs.SkipUpdate, {
+                required: false
+            });
             if (skipUpdate) {
                 return;
             }
@@ -47293,7 +47296,10 @@ function run() {
                 utils.logWarning(`Error retrieving key from state.`);
                 return;
             }
-            if (utils.isExactKeyMatch(primaryKey, state)) {
+            const forceUpdate = core.getBooleanInput(constants_1.Inputs.ForceUpdate, {
+                required: false
+            });
+            if (!forceUpdate && utils.isExactKeyMatch(primaryKey, state)) {
                 core.info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`);
                 return;
             }
