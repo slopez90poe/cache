@@ -6,7 +6,8 @@ export enum Inputs {
     EnableCrossOsArchive = "enableCrossOsArchive", // Input for cache, restore, save action
     FailOnCacheMiss = "fail-on-cache-miss", // Input for cache, restore action
     LookupOnly = "lookup-only", // Input for cache, restore action
-    SkipUpdate = "skip-update"
+    SkipUpdate = "skip-update",
+    ForceUpdate = "force-update"
 }
 
 export enum Outputs {

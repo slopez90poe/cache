@@ -28,6 +28,9 @@ inputs:
   skip-update:
     description: "The cache will not be updated if it is true"
     required: false
+  force-update:
+    description: "The cache will be updated if it is true even if the primary key matches"
+    required: false
 outputs:
   cache-hit:
     description: "A boolean value to indicate an exact match was found for the primary key"

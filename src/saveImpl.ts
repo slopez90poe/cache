@@ -48,7 +48,11 @@ async function saveImpl(stateProvider: IStateProvider): Promise<number | void> {
         // NO-OP in case of SaveOnly action
         const restoredKey = stateProvider.getCacheState();
 
-        if (utils.isExactKeyMatch(primaryKey, restoredKey)) {
+        const forceUpdate = core.getBooleanInput(Inputs.ForceUpdate, {
+            required: false
+        });
+
+        if (!forceUpdate && utils.isExactKeyMatch(primaryKey, restoredKey)) {
             core.info(
                 `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
             );
