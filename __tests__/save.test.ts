@@ -154,9 +154,14 @@ test("save with exact match returns early", async () => {
     await run();
 
     expect(saveCacheMock).toHaveBeenCalledTimes(1);
-    expect(saveCacheMock).toHaveBeenCalledWith([inputPath], primaryKey, {
-        uploadChunkSize: 4000000
-    });
+    expect(saveCacheMock).toHaveBeenCalledWith(
+        [inputPath],
+        primaryKey,
+        {
+            uploadChunkSize: 4000000
+        },
+        false
+    );
 
     expect(failedMock).toHaveBeenCalledTimes(0);
 });
